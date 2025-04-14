@@ -74,6 +74,37 @@ def save_response_to_cache(prompt: str, response: str, lang: str):
     CHAT_HISTORY_CACHE[f"{lang}:{prompt.lower().strip()}"] = response
 
 # Get Gemini response
+GENERAL_INFO_EN = """
+**🎓 Welcome to the American University of Mongolia (AUM)!**
+
+Here’s what you need to know:
+
+- 📘 AUM offers 100% English-language programs in Mongolia
+- 🇺🇸 You can transfer to the USA through our 2+2 program
+- 🎯 Entrance Exam 2025: April 26, 11:00 AM (register by April 25)
+- 🎓 Scholarships up to 100% for top scorers
+- 🌍 No TOEFL, IELTS, or SAT required for international students
+- 🏀 Student life includes clubs, sports, events, and trips
+- 💼 Internship and career support while you study
+
+For more, visit **[www.aum.edu.mn](http://www.aum.edu.mn)** or ask me specific questions!
+"""
+
+GENERAL_INFO_MN = """
+**🎓 Америкийн Их Сургууль (AUM)-д тавтай морил!**
+
+Үндсэн мэдээлэл:
+
+- 📘 AUM нь 100% англи хэлээр сургалт явуулдаг
+- 🇺🇸 2+2 хөтөлбөрөөр АНУ-д шилжин суралцах боломжтой
+- 🎯 Элсэлтийн шалгалт: 4-р сарын 26-нд 11:00 (бүртгэл 4-р сарын 25 хүртэл)
+- 🎓 Шалгалтын тэтгэлэг: 100% хүртэл
+- 🌍 Гадаад оюутнуудад TOEFL, IELTS, SAT шаардлагагүй
+- 🏀 Клуб, спорт, үйл ажиллагаа, аяллуудтай оюутны амьдрал
+- 💼 Суралцах хугацаандаа дадлага, карьерт дэмжлэг
+
+Нэмэлт мэдээлэл авах бол **[www.aum.edu.mn](http://www.aum.edu.mn)** руу орж эсвэл надаас асуугаарай!
+"""
 
 def is_general_info_request(text: str) -> bool:
     keywords = [
@@ -87,8 +118,9 @@ def get_gemini_response(model: genai.GenerativeModel, messages: List[Dict[str, s
     lang = detect_language(prompt)
 
     # 🔁 Handle general info shortcut
-    if is_general_info_request(prompt):
-        return SYSTEM_PROMPT_MN if lang == "Mongolian" else SYSTEM_PROMPT_EN
+if is_general_info_request(prompt):
+     return GENERAL_INFO_MN if lang == "Mongolian" else GENERAL_INFO_EN
+
 
     # ✅ Use cache if available
     cached = get_response_from_cache(prompt, lang)
