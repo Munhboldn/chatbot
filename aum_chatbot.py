@@ -13,7 +13,7 @@ st.set_page_config(page_title="AUM Chatbot", page_icon="🎓")
 load_dotenv()
 
 # Get API key
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "AIzaSyDgCFK3pqAsPLaq2EcqWM-SlVLm5fY5a-g")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "....")
 
 # Language toggle in sidebar
 if "language" not in st.session_state:
