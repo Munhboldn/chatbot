@@ -79,13 +79,13 @@ GENERAL_INFO_EN = """
 
 Here’s what you need to know:
 
-- 📘 AUM offers 100% English-language programs in Mongolia
-- 🇺🇸 You can transfer to the USA through our 2+2 program
-- 🎯 Entrance Exam 2025: April 26, 11:00 AM (register by April 25)
-- 🎓 Scholarships up to 100% for top scorers
-- 🌍 No TOEFL, IELTS, or SAT required for international students
-- 🏀 Student life includes clubs, sports, events, and trips
-- 💼 Internship and career support while you study
+- 📘 AUM offers 100% English-language programs in Mongolia  
+- 🇺🇸 You can transfer to the USA through our 2+2 program  
+- 🎯 Entrance Exam 2025: April 26, 11:00 AM (register by April 25)  
+- 🎓 Scholarships up to 100% for top scorers  
+- 🌍 No TOEFL, IELTS, or SAT required for international students  
+- 🏀 Student life includes clubs, sports, events, and trips  
+- 💼 Internship and career support while you study  
 
 For more, visit **[www.aum.edu.mn](http://www.aum.edu.mn)** or ask me specific questions!
 """
@@ -95,13 +95,13 @@ GENERAL_INFO_MN = """
 
 Үндсэн мэдээлэл:
 
-- 📘 AUM нь 100% англи хэлээр сургалт явуулдаг
-- 🇺🇸 2+2 хөтөлбөрөөр АНУ-д шилжин суралцах боломжтой
-- 🎯 Элсэлтийн шалгалт: 4-р сарын 26-нд 11:00 (бүртгэл 4-р сарын 25 хүртэл)
-- 🎓 Шалгалтын тэтгэлэг: 100% хүртэл
-- 🌍 Гадаад оюутнуудад TOEFL, IELTS, SAT шаардлагагүй
-- 🏀 Клуб, спорт, үйл ажиллагаа, аяллуудтай оюутны амьдрал
-- 💼 Суралцах хугацаандаа дадлага, карьерт дэмжлэг
+- 📘 AUM нь 100% англи хэлээр сургалт явуулдаг  
+- 🇺🇸 2+2 хөтөлбөрөөр АНУ-д шилжин суралцах боломжтой  
+- 🎯 Элсэлтийн шалгалт: 4-р сарын 26-нд 11:00 (бүртгэл 4-р сарын 25 хүртэл)  
+- 🎓 Шалгалтын тэтгэлэг: 100% хүртэл  
+- 🌍 Гадаад оюутнуудад TOEFL, IELTS, SAT шаардлагагүй  
+- 🏀 Клуб, спорт, үйл ажиллагаа, аяллуудтай оюутны амьдрал  
+- 💼 Суралцах хугацаандаа дадлага, карьерт дэмжлэг  
 
 Нэмэлт мэдээлэл авах бол **[www.aum.edu.mn](http://www.aum.edu.mn)** руу орж эсвэл надаас асуугаарай!
 """
@@ -118,9 +118,8 @@ def get_gemini_response(model: genai.GenerativeModel, messages: List[Dict[str, s
     lang = detect_language(prompt)
 
     # 🔁 Handle general info shortcut
-if is_general_info_request(prompt):
-     return GENERAL_INFO_MN if lang == "Mongolian" else GENERAL_INFO_EN
-
+    if is_general_info_request(prompt):
+        return GENERAL_INFO_MN if lang == "Mongolian" else GENERAL_INFO_EN
 
     # ✅ Use cache if available
     cached = get_response_from_cache(prompt, lang)
@@ -139,6 +138,7 @@ if is_general_info_request(prompt):
     except Exception as e:
         st.error(f"Error: {e}")
         return "Уучлаарай, алдаа гарлаа." if lang == "Mongolian" else "Sorry, something went wrong."
+
 
 
 # Display suggested questions
