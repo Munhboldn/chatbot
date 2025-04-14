@@ -91,42 +91,44 @@ For more, visit **[www.aum.edu.mn](http://www.aum.edu.mn)** or ask me specific q
 """
 
 GENERAL_INFO_MN = """
-**🎓 Америкийн Их Сургууль (AUM)-д тавтай морил!**
+**🎓 Америкийн Их Сургууль (AUM)-д тавтай морилно уу!**
 
 Үндсэн мэдээлэл:
 
-- 📘 AUM нь 100% англи хэлээр сургалт явуулдаг  
+- 📘 AUM нь 100% англи хэл дээр хичээл заадаг  
 - 🇺🇸 2+2 хөтөлбөрөөр АНУ-д шилжин суралцах боломжтой  
-- 🎯 Элсэлтийн шалгалт: 4-р сарын 26-нд 11:00 (бүртгэл 4-р сарын 25 хүртэл)  
-- 🎓 Шалгалтын тэтгэлэг: 100% хүртэл  
+- 🎯 Элсэлтийн шалгалт: 2025 оны 4-р сарын 26-ны 11:00 цагт (бүртгэл 4-р сарын 25-ны 18:00 цаг хүртэл)  
+- 🎓 Шалгалтын өндөр оноотой сурагчдад 100% хүртэл тэтгэлэг олгоно  
 - 🌍 Гадаад оюутнуудад TOEFL, IELTS, SAT шаардлагагүй  
-- 🏀 Клуб, спорт, үйл ажиллагаа, аяллуудтай оюутны амьдрал  
-- 💼 Суралцах хугацаандаа дадлага, карьерт дэмжлэг  
+- 🏀 Оюутны амьдралд клуб, спорт, эвент болон аяллууд багтдаг  
+- 💼 Суралцах хугацаандаа дадлага хийх болон ажлын байрны дэмжлэг авна  
 
-Нэмэлт мэдээлэл авах бол **[www.aum.edu.mn](http://www.aum.edu.mn)** руу орж эсвэл надаас асуугаарай!
+Дэлгэрэнгүй мэдээллийг **[www.aum.edu.mn](http://www.aum.edu.mn)** сайтаас эсвэл надаас асуугаарай!
 """
 
-def is_general_info_request(text: str) -> bool:
-    keywords = [
-        "medeelel", "medeelel avii", "medeelel avyaa", "medeelel ogooch",
-        "мэдээлэл", "мэдээлэл авъя", "мэдээлэл авий", "мэдээлэл өгөөч"
-    ]
+def is_general_info_request(text: str) -> Optional[str]:
     text = text.lower().strip()
-    return any(k in text for k in keywords)
+
+    mongolian_keywords = ["мэдээлэл", "мэдээлэл авъя", "мэдээлэл авий", "мэдээлэл өгөөч"]
+    latin_mn_keywords = ["medeelel", "medeelel avii", "medeelel avyaa", "medeelel ogooch"]
+
+    if any(k in text for k in mongolian_keywords + latin_mn_keywords):
+        return "Mongolian"
+
+    return None
 
 def get_gemini_response(model: genai.GenerativeModel, messages: List[Dict[str, str]], prompt: str) -> str:
     lang = detect_language(prompt)
 
     # 🔁 Handle general info shortcut
-    if is_general_info_request(prompt):
-        return GENERAL_INFO_MN if lang == "Mongolian" else GENERAL_INFO_EN
+    info_lang = is_general_info_request(prompt)
+    if info_lang:
+        return GENERAL_INFO_MN if info_lang == "Mongolian" else GENERAL_INFO_EN
 
-    # ✅ Use cache if available
     cached = get_response_from_cache(prompt, lang)
     if cached:
         return cached
 
-    # 🧠 Construct prompt with history
     history = "\n".join(f"{msg['role'].capitalize()}: {msg['content']}" for msg in messages)
     full_prompt = f"{get_system_prompt(prompt)}\n\n{history}\n\nUser: {prompt}"
 
@@ -138,8 +140,6 @@ def get_gemini_response(model: genai.GenerativeModel, messages: List[Dict[str, s
     except Exception as e:
         st.error(f"Error: {e}")
         return "Уучлаарай, алдаа гарлаа." if lang == "Mongolian" else "Sorry, something went wrong."
-
-
 
 # Display suggested questions
 def display_suggested_questions(lang: str) -> Optional[str]:
