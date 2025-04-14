@@ -75,12 +75,27 @@ def save_response_to_cache(prompt: str, response: str, lang: str):
 
 # Get Gemini response
 
+def is_general_info_request(text: str) -> bool:
+    keywords = [
+        "medeelel", "medeelel avii", "medeelel avyaa", "medeelel ogooch",
+        "мэдээлэл", "мэдээлэл авъя", "мэдээлэл авий", "мэдээлэл өгөөч"
+    ]
+    text = text.lower().strip()
+    return any(k in text for k in keywords)
+
 def get_gemini_response(model: genai.GenerativeModel, messages: List[Dict[str, str]], prompt: str) -> str:
     lang = detect_language(prompt)
+
+    # 🔁 Handle general info shortcut
+    if is_general_info_request(prompt):
+        return SYSTEM_PROMPT_MN if lang == "Mongolian" else SYSTEM_PROMPT_EN
+
+    # ✅ Use cache if available
     cached = get_response_from_cache(prompt, lang)
     if cached:
         return cached
 
+    # 🧠 Construct prompt with history
     history = "\n".join(f"{msg['role'].capitalize()}: {msg['content']}" for msg in messages)
     full_prompt = f"{get_system_prompt(prompt)}\n\n{history}\n\nUser: {prompt}"
 
@@ -92,6 +107,7 @@ def get_gemini_response(model: genai.GenerativeModel, messages: List[Dict[str, s
     except Exception as e:
         st.error(f"Error: {e}")
         return "Уучлаарай, алдаа гарлаа." if lang == "Mongolian" else "Sorry, something went wrong."
+
 
 # Display suggested questions
 def display_suggested_questions(lang: str) -> Optional[str]:
