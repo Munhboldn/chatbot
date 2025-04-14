@@ -74,6 +74,16 @@ Your job is to help answer questions about:
 - Facebook: AmericanUniversityofMongolia
 - Instagram: americanuniversityofmongolia
 
+📘 About LeTourneau University (LETU):
+- A private university in Longview, Texas, USA, founded in 1946 by inventor R.G. LeTourneau.
+- Offers top programs in engineering, aviation, business, education, and nursing.
+- 3,000+ students from 45 states and 27 countries.
+- NCAA Division III athletics and over 50 student organizations.
+- Career placement: 91% for engineering, 100% for nursing, theology, and counseling.
+- LETU is AUM’s official U.S. partner in the 2+2 program.
+- AUM students can transfer to LETU with up to $20,000/year scholarship.
+- Dual degree opportunity and full academic and visa support.
+  
 📌 FORMAT INSTRUCTIONS:
 - Respond in **Markdown** format
 - Use bullet points
@@ -158,6 +168,16 @@ SYSTEM_PROMPT_MN = """
 - Вэбсайт: www.aum.edu.mn
 - Facebook: AmericanUniversityofMongolia
 - Instagram: americanuniversityofmongolia
+
+📘 LeTourneau их сургуулийн тухай:
+- АНУ-ын Техас мужийн Лонгвью хотод байрладаг хувийн  их сургууль.
+- 1946 онд зохион бүтээгч R.G. LeTourneau байгуулсан.
+- Инженер, нисэх, бизнес, боловсрол, сувилахуйн чиглэлээр хүчтэй сургалттай.
+- 45 муж, 27 орноос 3,000 гаруй оюутан сурдаг.
+- NCAA Division III спорт, 50+ клуб, 91–100% ажлын байрны амжилттай үзүүлэлттэй.
+- AUM-ийн АНУ дахь түнш бөгөөд 2+2 хөтөлбөрөөр хамтран ажилладаг.
+- AUM-ийн оюутнууд жилд 20,000$ хүртэл тэтгэлэгтэйгээр шилжин суралцах боломжтой.
+- Давхар дипломын боломжоос гадна виз болон сургалтын бүх дэмжлэг үзүүлдэг.
 
 📌 ХАРИУЛТЫН ЗАГВАР:
 - Markdown формат ашигла
